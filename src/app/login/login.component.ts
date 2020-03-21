@@ -15,6 +15,8 @@ export class LoginComponent  {
   
 
     login(){
+        console.log('Clicked');
+        
         this.auth.login();
     }
   }
