@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase'; 
-import { Observable, observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app'; 
+import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './user.service';
 import { AppUser } from './models/app-user';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
+import { SnapshotAction } from '@angular/fire/database';
+
 
 @Injectable()
 export class AuthService {
@@ -26,21 +29,18 @@ export class AuthService {
   }
 
   logout(){
-
     this.afAuth.auth.signOut();
-
   }
 
-  get appUser$() : Observable<AppUser>{
+  get appUser$() : Observable<AppUser>|Observable<any>{
 
-    return this.user$
-     .switchMap(user =>  {
-
-      if(user) return this.userService.get(user.uid);
+    return this.user$.switchMap((user,index) => {
+      if(user) 
+      return this.userService.get(user.uid).valueChanges();
 
       return Observable.of(null);
+    })
 
-     });
   }
 
 }

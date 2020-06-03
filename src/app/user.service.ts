@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-import * as firebase from 'firebase'; 
+import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
+import * as firebase from 'firebase/app'; 
 import { AppUser } from './models/app-user';
 
 @Injectable({
@@ -11,7 +11,6 @@ export class UserService {
   constructor(private db : AngularFireDatabase) { }
 
   save(user: firebase.User) {
-    debugger
 
     this.db.object('/user/' + user.uid).update({
 
@@ -23,9 +22,8 @@ export class UserService {
     )
   }
 
-  get(uid: string) : FirebaseObjectObservable<AppUser> {
-    return this.db.object('/users/' +uid);
-
+  get(uid: string) : AngularFireObject<AppUser> {
+    return this.db.object('/user/' +uid);
   }
 
 }

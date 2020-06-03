@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from 'src/app/product.service';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
-import { DataTableResource } from 'angular-4-data-table';
+import { DataTableResource } from 'angular5-data-table';
 
 @Component({
   selector: 'app-admin-products',
@@ -18,9 +18,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   itemCount : number;
   
   constructor(private productService : ProductService) {
-   this.subscription = this.productService.getAll()
+   this.subscription = this.productService.getAll().valueChanges()
    .subscribe(products=> {
-    this.filteredProducts= this.products = products;
+    this.filteredProducts = this.products = products;
     this.initializeTable(products);
    
 
